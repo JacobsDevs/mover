@@ -1,0 +1,21 @@
+#!/bin/bash
+mkdir sorted
+cp direc* brands sorted
+cd sorted
+../setup
+cd ..
+while read line; do
+	brand=$"$line"
+	while read model; do
+		find -type f -print0 | while read -d $'\0' file; do
+			if [[ $file == *"$model"* ]]; then
+				dir=$(dirname "${file}")
+				location=$(echo "$dir" | cut -c 3-)
+				destination=$"sorted/$brand/$location"
+				echo "Destination: $destination"
+				echo "File: $file"
+				cp "$file" "$destination"
+			fi
+		done
+	done < <(cat $brand)
+done < <(cat brands)

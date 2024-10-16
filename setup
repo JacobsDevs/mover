@@ -1,0 +1,16 @@
+#!/bin/bash
+
+while read line; do
+	brand=$"$line"
+	while read line; do
+		a=$"$line"
+		while read line; do
+			b=$"$line"
+			while read line; do
+				c=$"$line"
+
+				mkdir -p  "$brand/$a/$b/$c"
+			done < <(cat directories_3)
+		done < <(cat directories_2)
+	done < <(cat directories_1)
+done < <(cat brands)
